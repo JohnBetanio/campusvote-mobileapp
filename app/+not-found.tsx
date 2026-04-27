@@ -10,7 +10,7 @@ export default function NotFoundScreen() {
         <Text style={styles.emoji}>🗳️</Text>
         <Text style={styles.title}>Page Not Found</Text>
         <Text style={styles.desc}>This screen doesn't exist in CampusVote.</Text>
-        <Link href="/(auth)/student-login" style={styles.link}>
+        <Link href="/(auth)/VoterLogin" style={styles.link}>
           <Text style={styles.linkText}>Go to Login →</Text>
         </Link>
       </View>

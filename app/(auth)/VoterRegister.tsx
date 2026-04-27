@@ -30,7 +30,7 @@ function PasswordStrength({ password }: { password: string }) {
   );
 }
 
-export default function StudentRegisterScreen() {
+export default function VoterRegisterScreen() {
   const { registerStudent } = useAuth();
   const router = useRouter();
   const [fullName, setFullName] = useState('');
@@ -63,7 +63,7 @@ export default function StudentRegisterScreen() {
       Alert.alert(
         'Account Created! 🎉',
         'Your SNSU voting account is ready. Please log in.',
-        [{ text: 'Login Now', onPress: () => router.replace('/(auth)/student-login') }]
+        [{ text: 'Login Now', onPress: () => router.replace('/(auth)/VoterLogin') }]
       );
     }
   };
@@ -73,11 +73,7 @@ export default function StudentRegisterScreen() {
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <ScrollView contentContainerStyle={styles.scroll} keyboardShouldPersistTaps="handled">
-
         <View style={styles.logoArea}>
-          <View style={styles.logoCircle}>
-            <Text style={styles.logoEmoji}>📝</Text>
-          </View>
           <Text style={styles.appName}>CampusVote</Text>
           <Text style={styles.appTagline}>Create your voting account</Text>
         </View>
@@ -175,12 +171,6 @@ const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: Colors.primary },
   scroll: { flexGrow: 1, justifyContent: 'center', alignItems: 'center', paddingVertical: 48, paddingHorizontal: 20 },
   logoArea: { alignItems: 'center', marginBottom: 28 },
-  logoCircle: {
-    width: 72, height: 72, borderRadius: 36,
-    backgroundColor: 'rgba(255,255,255,0.15)',
-    justifyContent: 'center', alignItems: 'center', marginBottom: 10,
-    borderWidth: 2, borderColor: 'rgba(255,255,255,0.3)',
-  },
   logoEmoji: { fontSize: 36 },
   appName: { color: '#fff', fontSize: 26, fontWeight: '900', letterSpacing: 0.5 },
   appTagline: { color: 'rgba(255,255,255,0.65)', fontSize: 13, marginTop: 3 },

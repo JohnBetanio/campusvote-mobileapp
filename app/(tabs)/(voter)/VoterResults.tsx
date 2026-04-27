@@ -8,17 +8,11 @@ const RESULTS = [
   { name: 'Pedro Reyes', votes: 78, pct: 11, position: 'President' },
 ];
 
-export default function ResultsScreen() {
+export default function VoterResultsScreen() {
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
       <Text style={styles.pageTitle}>Results</Text>
-      <Text style={styles.pageSubtitle}>Partial results — voting is still ongoing</Text>
-
-      <View style={styles.disclaimer}>
-        <Text style={styles.disclaimerText}>⚠️ Final results will be available after April 30, 2026</Text>
-      </View>
-
-      <Text style={styles.sectionTitle}>Presidential Race</Text>
+      <Text style={styles.pageSubtitle}>Live election results</Text>
       {RESULTS.map((r, i) => (
         <View key={r.name} style={styles.resultCard}>
           <View style={styles.rankCircle}>
@@ -36,6 +30,7 @@ export default function ResultsScreen() {
           </View>
         </View>
       ))}
+      <Text style={styles.disclaimer}>📊 Results may be partial. Official results will be announced after voting ends.</Text>
     </ScrollView>
   );
 }
@@ -45,12 +40,6 @@ const styles = StyleSheet.create({
   content: { padding: 20, paddingBottom: 32 },
   pageTitle: { fontSize: 26, fontWeight: '900', color: Colors.text, marginBottom: 4 },
   pageSubtitle: { fontSize: 13, color: Colors.textMuted, marginBottom: 16 },
-  disclaimer: {
-    backgroundColor: '#FFF9C4', borderRadius: 12, padding: 12,
-    marginBottom: 20, borderLeftWidth: 4, borderLeftColor: '#FDD835',
-  },
-  disclaimerText: { fontSize: 13, color: '#795548', fontWeight: '600' },
-  sectionTitle: { fontSize: 17, fontWeight: '800', color: Colors.text, marginBottom: 12 },
   resultCard: {
     backgroundColor: '#fff', borderRadius: 14, padding: 16, flexDirection: 'row',
     alignItems: 'center', gap: 14, marginBottom: 10,
@@ -67,4 +56,5 @@ const styles = StyleSheet.create({
   barBg: { height: 8, backgroundColor: '#eee', borderRadius: 4, marginBottom: 4 },
   barFill: { height: 8, borderRadius: 4 },
   voteCount: { fontSize: 11, color: Colors.textMuted },
+  disclaimer: { fontSize: 11, color: Colors.textMuted, textAlign: 'center', marginTop: 10 },
 });

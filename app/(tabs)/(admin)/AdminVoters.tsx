@@ -12,7 +12,7 @@ interface Student {
   hasVoted: boolean; createdAt: string;
 }
 
-export default function AdminStudentsScreen() {
+export default function AdminVotersScreen() {
   const [students, setStudents] = useState<Student[]>([]);
   const [search, setSearch] = useState('');
   const [refreshing, setRefreshing] = useState(false);
@@ -140,43 +140,43 @@ const styles = StyleSheet.create({
   pageSubtitle: { fontSize: 13, color: Colors.textMuted, marginBottom: 16 },
   searchRow: {
     flexDirection: 'row', alignItems: 'center', backgroundColor: '#fff',
-    borderRadius: 14, paddingHorizontal: 14, marginBottom: 12,
-    borderWidth: 1.5, borderColor: Colors.border,
+    borderRadius: 12, paddingHorizontal: 12, paddingVertical: 10,
+    marginBottom: 14, borderWidth: 1, borderColor: Colors.border,
   },
   searchIcon: { fontSize: 16, marginRight: 8 },
-  searchInput: { flex: 1, height: 46, fontSize: 14, color: Colors.text },
-  clearBtn: { fontSize: 16, color: Colors.textMuted, paddingLeft: 8 },
-  filterRow: { flexDirection: 'row', gap: 8, marginBottom: 16 },
+  searchInput: { flex: 1, fontSize: 14, color: Colors.text },
+  clearBtn: { fontSize: 14, color: Colors.textMuted, paddingHorizontal: 4 },
+  filterRow: { flexDirection: 'row', gap: 8, marginBottom: 14 },
   filterChip: {
-    paddingHorizontal: 14, paddingVertical: 7, borderRadius: 20,
-    backgroundColor: '#fff', borderWidth: 1.5, borderColor: Colors.border,
+    backgroundColor: '#fff', borderRadius: 20, paddingHorizontal: 12, paddingVertical: 6,
+    borderWidth: 1, borderColor: Colors.border,
   },
-  filterChipActive: { backgroundColor: Colors.primaryLight, borderColor: Colors.primaryLight },
-  filterChipText: { fontSize: 12, color: Colors.textSecondary, fontWeight: '600' },
+  filterChipActive: { backgroundColor: Colors.primary, borderColor: Colors.primary },
+  filterChipText: { fontSize: 12, fontWeight: '700', color: Colors.textSecondary },
   filterChipTextActive: { color: '#fff' },
-  empty: { alignItems: 'center', paddingVertical: 48 },
-  emptyIcon: { fontSize: 52, marginBottom: 12 },
-  emptyTitle: { fontSize: 18, fontWeight: '800', color: '#333', marginBottom: 6 },
-  emptyDesc: { fontSize: 13, color: Colors.textMuted, textAlign: 'center' },
   card: {
-    backgroundColor: '#fff', borderRadius: 14, padding: 14,
-    flexDirection: 'row', alignItems: 'center', gap: 12, marginBottom: 10,
+    backgroundColor: '#fff', borderRadius: 14, padding: 14, flexDirection: 'row',
+    alignItems: 'center', gap: 12, marginBottom: 10,
     shadowColor: '#000', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.05, shadowRadius: 4, elevation: 2,
   },
   avatar: {
-    width: 46, height: 46, borderRadius: 23,
+    width: 44, height: 44, borderRadius: 22,
     backgroundColor: Colors.primaryBg, justifyContent: 'center', alignItems: 'center',
   },
-  avatarText: { fontSize: 18, fontWeight: '800', color: Colors.primaryLight },
+  avatarText: { fontSize: 16, fontWeight: '800', color: Colors.primaryLight },
   info: { flex: 1 },
   studentName: { fontSize: 15, fontWeight: '700', color: Colors.text },
   studentEmail: { fontSize: 12, color: Colors.textMuted, marginTop: 2 },
-  tag: { borderRadius: 20, paddingHorizontal: 8, paddingVertical: 3, marginTop: 5, alignSelf: 'flex-start' },
+  tag: { alignSelf: 'flex-start', borderRadius: 20, paddingHorizontal: 10, paddingVertical: 3, marginTop: 6 },
   tagVoted: { backgroundColor: '#E8F5E9' },
   tagPending: { backgroundColor: '#FFF9C4' },
   tagText: { fontSize: 11, fontWeight: '700' },
   tagTextVoted: { color: Colors.primaryLight },
   tagTextPending: { color: '#E65100' },
-  deleteBtn: { padding: 8 },
-  deleteBtnText: { fontSize: 20 },
+  deleteBtn: { padding: 6 },
+  deleteBtnText: { fontSize: 16 },
+  empty: { alignItems: 'center', marginTop: 40 },
+  emptyIcon: { fontSize: 40, marginBottom: 12 },
+  emptyTitle: { fontSize: 16, fontWeight: '800', color: Colors.text, marginBottom: 6 },
+  emptyDesc: { fontSize: 13, color: Colors.textMuted, textAlign: 'center' },
 });

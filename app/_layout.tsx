@@ -18,19 +18,19 @@ function RootLayoutNav() {
     const inTabsGroup = segments[0] === '(tabs)';
 
     if (!user) {
-      // Not logged in → send to student login
+      // Not logged in → send to voter login
       if (!inAuthGroup) {
-        router.replace('/(auth)/student-login');
+        router.replace('/(auth)/VoterLogin');
       }
     } else if (user.role === 'admin') {
       // Admin → admin tabs
-      if (!inTabsGroup || segments[1] !== 'admin-dashboard') {
-        router.replace('/(tabs)/admin-dashboard');
+      if (!inTabsGroup) {
+        router.replace('/(tabs)/(admin)/AdminDashboard');
       }
     } else {
-      // Student → student tabs
-      if (!inTabsGroup || segments[1] !== 'index') {
-        router.replace('/(tabs)/');
+      // Student → voter tabs
+      if (!inTabsGroup) {
+        router.replace('/(tabs)/(voter)/VoterDashboard');
       }
     }
   }, [user, loading, segments]);

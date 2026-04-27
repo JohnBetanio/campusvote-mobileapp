@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { Colors } from '@/constants/Colors';
 
 const ELECTIONS = [
@@ -15,7 +15,7 @@ const ELECTIONS = [
   },
 ];
 
-export default function ElectionsScreen() {
+export default function VoterVoteScreen() {
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
       <Text style={styles.pageTitle}>Elections</Text>
@@ -48,6 +48,7 @@ export default function ElectionsScreen() {
           <TouchableOpacity
             style={[styles.voteBtn, e.status !== 'live' && styles.voteBtnDisabled]}
             disabled={e.status !== 'live'}
+            onPress={() => e.status === 'live' && Alert.alert('Vote', `Cast your vote in "${e.title}" - voting flow coming soon!`)}
           >
             <Text style={styles.voteBtnText}>
               {e.status === 'live' ? '🗳️  Vote Now' : '🔒  Not Yet Open'}

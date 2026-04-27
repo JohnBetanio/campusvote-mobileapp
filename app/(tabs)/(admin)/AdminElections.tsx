@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import {
   View, Text, ScrollView, TouchableOpacity, StyleSheet, Alert,
 } from 'react-native';
+import { useRouter } from 'expo-router';
 import { Colors } from '@/constants/Colors';
 
 const ELECTIONS = [
@@ -31,7 +32,18 @@ const STATUS_STYLE: Record<string, { bg: string; text: string; label: string }> 
   ended: { bg: '#F5F5F5', text: '#757575', label: 'ENDED' },
 };
 
+function StatPill({ icon, label, value }: { icon: string; label: string; value: number }) {
+  return (
+    <View style={{ alignItems: 'center' }}>
+      <Text style={{ fontSize: 14, marginBottom: 2 }}>{icon}</Text>
+      <Text style={{ fontSize: 13, fontWeight: '800', color: Colors.text }}>{value}</Text>
+      <Text style={{ fontSize: 10, color: Colors.textMuted, fontWeight: '600' }}>{label}</Text>
+    </View>
+  );
+}
+
 export default function AdminElectionsScreen() {
+  const router = useRouter();
   const [elections] = useState(ELECTIONS);
 
   const handleCreate = () => {
@@ -81,11 +93,11 @@ export default function AdminElectionsScreen() {
 
             <View style={styles.actionsRow}>
               {e.status !== 'ended' && (
-                <TouchableOpacity style={styles.btnPrimary}>
+                <TouchableOpacity style={styles.btnPrimary} onPress={() => Alert.alert('Manage Election', `Managing "${e.title}" - coming soon!`)}>
                   <Text style={styles.btnPrimaryText}>⚙️ Manage</Text>
                 </TouchableOpacity>
               )}
-              <TouchableOpacity style={styles.btnOutline}>
+              <TouchableOpacity style={styles.btnOutline} onPress={() => router.push('/(tabs)/(admin)/AdminResults')}>
                 <Text style={styles.btnOutlineText}>📊 Results</Text>
               </TouchableOpacity>
               {e.status === 'live' && (
@@ -93,7 +105,7 @@ export default function AdminElectionsScreen() {
                   style={styles.btnDanger}
                   onPress={() => Alert.alert('End Election', `End "${e.title}" now?`, [
                     { text: 'Cancel', style: 'cancel' },
-                    { text: 'End', style: 'destructive', onPress: () => {} },
+                    { text: 'End', style: 'destructive', onPress: () => { } },
                   ])}
                 >
                   <Text style={styles.btnDangerText}>⏹ End</Text>
@@ -113,73 +125,57 @@ export default function AdminElectionsScreen() {
   );
 }
 
-function StatPill({ icon, label, value }: { icon: string; label: string; value: number }) {
-  return (
-    <View style={styles.statPill}>
-      <Text style={styles.statPillIcon}>{icon}</Text>
-      <Text style={styles.statPillValue}>{value}</Text>
-      <Text style={styles.statPillLabel}>{label}</Text>
-    </View>
-  );
-}
-
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: Colors.background },
   content: { padding: 20, paddingBottom: 32 },
-  titleRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16 },
-  pageTitle: { fontSize: 26, fontWeight: '900', color: Colors.text, marginBottom: 2 },
-  pageSubtitle: { fontSize: 13, color: Colors.textMuted },
+  titleRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 },
+  pageTitle: { fontSize: 26, fontWeight: '900', color: Colors.text },
+  pageSubtitle: { fontSize: 13, color: Colors.textMuted, marginTop: 2 },
   createBtn: {
-    backgroundColor: Colors.primaryLight, borderRadius: 20,
-    paddingHorizontal: 16, paddingVertical: 10,
+    backgroundColor: Colors.primary, borderRadius: 10,
+    paddingHorizontal: 14, paddingVertical: 8,
   },
-  createBtnText: { color: '#fff', fontSize: 14, fontWeight: '700' },
-  filterRow: { flexDirection: 'row', gap: 8, marginBottom: 16 },
+  createBtnText: { color: '#fff', fontSize: 13, fontWeight: '700' },
+  filterRow: { flexDirection: 'row', gap: 8, marginBottom: 14 },
   chip: {
-    paddingHorizontal: 14, paddingVertical: 7, borderRadius: 20,
-    backgroundColor: '#fff', borderWidth: 1.5, borderColor: Colors.border,
+    backgroundColor: '#fff', borderRadius: 20,
+    paddingHorizontal: 14, paddingVertical: 6,
+    borderWidth: 1, borderColor: Colors.border,
   },
-  chipActive: { backgroundColor: Colors.adminLight, borderColor: Colors.adminLight },
-  chipText: { fontSize: 12, color: Colors.textSecondary, fontWeight: '600' },
+  chipActive: { backgroundColor: Colors.primary, borderColor: Colors.primary },
+  chipText: { fontSize: 12, fontWeight: '700', color: Colors.textSecondary },
   chipTextActive: { color: '#fff' },
   card: {
-    backgroundColor: '#fff', borderRadius: 18, padding: 18, marginBottom: 14,
-    shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.07, shadowRadius: 8, elevation: 3,
+    backgroundColor: '#fff', borderRadius: 16, padding: 16, marginBottom: 14,
+    shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.07, shadowRadius: 6, elevation: 3,
   },
   cardTop: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 },
   badge: { flexDirection: 'row', alignItems: 'center', gap: 5, borderRadius: 20, paddingHorizontal: 10, paddingVertical: 4 },
   liveDot: { width: 6, height: 6, borderRadius: 3, backgroundColor: Colors.error },
   badgeText: { fontSize: 11, fontWeight: '800', letterSpacing: 1 },
-  dateRange: { fontSize: 11, color: Colors.textMuted },
-  cardTitle: { fontSize: 15, fontWeight: '800', color: Colors.text, marginBottom: 14 },
-  statsRow: { flexDirection: 'row', gap: 8, marginBottom: 14 },
-  statPill: {
-    flex: 1, backgroundColor: Colors.background, borderRadius: 10, padding: 10, alignItems: 'center',
-  },
-  statPillIcon: { fontSize: 16 },
-  statPillValue: { fontSize: 18, fontWeight: '900', color: Colors.text, marginTop: 2 },
-  statPillLabel: { fontSize: 10, color: Colors.textMuted, fontWeight: '600', marginTop: 1 },
-  actionsRow: { flexDirection: 'row', gap: 8 },
+  dateRange: { fontSize: 12, color: Colors.textMuted },
+  cardTitle: { fontSize: 15, fontWeight: '800', color: Colors.text, marginBottom: 10 },
+  statsRow: { flexDirection: 'row', justifyContent: 'space-around', marginBottom: 12 },
+  actionsRow: { flexDirection: 'row', gap: 8, flexWrap: 'wrap' },
   btnPrimary: {
-    flex: 1, height: 38, backgroundColor: Colors.primaryLight,
-    borderRadius: 10, justifyContent: 'center', alignItems: 'center',
+    backgroundColor: Colors.primaryLight, borderRadius: 10,
+    paddingHorizontal: 12, paddingVertical: 8,
   },
   btnPrimaryText: { color: '#fff', fontSize: 12, fontWeight: '700' },
   btnOutline: {
-    flex: 1, height: 38, borderWidth: 1.5, borderColor: Colors.primaryLight,
-    borderRadius: 10, justifyContent: 'center', alignItems: 'center',
+    borderWidth: 1.5, borderColor: Colors.primaryLight, borderRadius: 10,
+    paddingHorizontal: 12, paddingVertical: 8,
   },
   btnOutlineText: { color: Colors.primaryLight, fontSize: 12, fontWeight: '700' },
   btnDanger: {
-    flex: 1, height: 38, backgroundColor: '#FFEBEE',
-    borderRadius: 10, justifyContent: 'center', alignItems: 'center',
+    backgroundColor: Colors.error, borderRadius: 10,
+    paddingHorizontal: 12, paddingVertical: 8,
   },
-  btnDangerText: { color: Colors.error, fontSize: 12, fontWeight: '700' },
+  btnDangerText: { color: '#fff', fontSize: 12, fontWeight: '700' },
   createCard: {
-    borderWidth: 2, borderStyle: 'dashed', borderColor: Colors.primaryLight,
-    borderRadius: 14, height: 60, justifyContent: 'center', alignItems: 'center',
-    flexDirection: 'row', gap: 10,
+    borderWidth: 2, borderColor: Colors.border, borderStyle: 'dashed',
+    borderRadius: 16, padding: 20, alignItems: 'center', marginTop: 4,
   },
-  createCardIcon: { fontSize: 22, color: Colors.primaryLight, fontWeight: '700' },
-  createCardText: { fontSize: 15, color: Colors.primaryLight, fontWeight: '700' },
+  createCardIcon: { fontSize: 28, color: Colors.textMuted, marginBottom: 4 },
+  createCardText: { fontSize: 14, fontWeight: '700', color: Colors.textMuted },
 });

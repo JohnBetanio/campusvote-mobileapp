@@ -15,7 +15,7 @@ export default function AdminProfileScreen() {
         text: 'Logout', style: 'destructive',
         onPress: async () => {
           await logout();
-          router.replace('/(auth)/admin-login');
+          router.replace('/(auth)/AdminLogin');
         },
       },
     ]);
@@ -45,9 +45,9 @@ export default function AdminProfileScreen() {
       {/* Quick actions */}
       <Text style={styles.sectionTitle}>Quick Actions</Text>
       <View style={styles.actionsGrid}>
-        <ActionCard icon="👥" label="Manage Students" color="#E3F2FD" onPress={() => {}} />
-        <ActionCard icon="🗳️" label="Manage Elections" color="#E8F5E9" onPress={() => {}} />
-        <ActionCard icon="📊" label="View Reports" color="#EDE7F6" onPress={() => {}} />
+        <ActionCard icon="👥" label="Manage Students" color="#E3F2FD" onPress={() => router.push('/(tabs)/(admin)/AdminVoters')} />
+        <ActionCard icon="🗳️" label="Manage Elections" color="#E8F5E9" onPress={() => router.push('/(tabs)/(admin)/AdminElections')} />
+        <ActionCard icon="📊" label="View Reports" color="#EDE7F6" onPress={() => router.push('/(tabs)/(admin)/AdminResults')} />
         <ActionCard icon="⚙️" label="Settings" color="#FFF9C4" onPress={() => Alert.alert('Settings', 'Coming soon!')} />
       </View>
 
