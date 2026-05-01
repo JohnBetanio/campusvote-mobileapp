@@ -9,8 +9,8 @@ function TabIcon({ name, focused }: { name: any; focused: boolean }) {
         <View
             style={{
                 width: 40,
-                height: 40,
-                borderRadius: 20,
+                height: 36,
+                borderRadius: 18,
                 backgroundColor: focused ? 'rgba(255,255,255,0.2)' : 'transparent',
                 justifyContent: 'center',
                 alignItems: 'center',
@@ -36,15 +36,18 @@ export default function DashboardLayout() {
                 tabBarStyle: {
                     backgroundColor: Colors.primary,
                     borderTopWidth: 0,
-                    height: 70,
-                    paddingBottom: 10,
-                    paddingTop: 6,
+                    height: 54,
+                    paddingBottom: 0,
+                    paddingTop: 2,
                 },
                 tabBarActiveTintColor: '#ffffff',
                 tabBarInactiveTintColor: 'rgba(255,255,255,0.6)',
-                tabBarLabelStyle: { fontSize: 10, fontWeight: '700', marginBottom: 2 },
             }}
         >
+            {/* Auto-discovered hidden routes */}
+            <Tabs.Screen name="index" options={{ tabBarButton: () => null }} />
+            <Tabs.Screen name="(admin)/AdminEditElection" options={{ tabBarButton: () => null }} />
+
             {/* Student tabs */}
             <Tabs.Screen
                 name="(voter)/VoterDashboard"
@@ -131,7 +134,7 @@ export default function DashboardLayout() {
             <Tabs.Screen
                 name="(admin)/AdminAnnouncements"
                 options={{
-                    title: 'Announce',
+                    title: 'Announcements',
                     href: isAdmin ? undefined : null,
                     tabBarIcon: ({ focused }) => <TabIcon name="notifications-outline" focused={focused} />,
                 }}
