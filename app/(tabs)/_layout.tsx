@@ -1,31 +1,28 @@
+import React from 'react';
+import { View, Text, StyleSheet } from 'react-native';
 import { Tabs } from 'expo-router';
-import { useAuth } from '@/context/AuthContext';
-import { Colors } from '@/constants/Colors';
-import { View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { Colors } from '@/constants/Colors';
+import { useAuth } from '@/context/AuthContext';
 
-function TabIcon({ name, focused }: { name: any; focused: boolean }) {
+function TabIcon({ name, focused, label }: { name: any; focused: boolean; label: string }) {
     return (
-        <View
-            style={{
-                width: 40,
-                height: 36,
-                borderRadius: 18,
-                backgroundColor: focused ? 'rgba(255,255,255,0.2)' : 'transparent',
-                justifyContent: 'center',
-                alignItems: 'center',
-            }}
-        >
-            <Ionicons
-                name={name}
-                size={focused ? 22 : 20}
-                color={focused ? '#fff' : 'rgba(255,255,255,0.6)'}
-            />
+        <View style={styles.tabContainer}>
+            <View style={[styles.iconCircle, focused && styles.iconCircleActive]}>
+                <Ionicons
+                    name={name}
+                    size={22}
+                    color={focused ? '#fff' : 'rgba(255,255,255,0.7)'}
+                />
+            </View>
+            <Text style={[styles.tabLabel, focused && styles.tabLabelActive]}>
+                {label}
+            </Text>
         </View>
     );
 }
 
-export default function DashboardLayout() {
+export default function TabsLayout() {
     const { user } = useAuth();
     const isAdmin = user?.role === 'admin';
 
@@ -36,116 +33,172 @@ export default function DashboardLayout() {
                 tabBarStyle: {
                     backgroundColor: Colors.primary,
                     borderTopWidth: 0,
-                    height: 54,
-                    paddingBottom: 0,
-                    paddingTop: 2,
+                    height: 62,
+                    paddingBottom: 4,
+                    paddingTop: 7,
                 },
                 tabBarActiveTintColor: '#ffffff',
-                tabBarInactiveTintColor: 'rgba(255,255,255,0.6)',
+                tabBarInactiveTintColor: 'rgba(255,255,255,0.7)',
+                tabBarShowLabel: false,
+                tabBarItemStyle: {
+                    paddingHorizontal: 0,
+                    paddingVertical: 0,
+                    margin: 0,
+                },
             }}
         >
-            {/* Auto-discovered hidden routes */}
-            <Tabs.Screen name="index" options={{ tabBarButton: () => null }} />
-            <Tabs.Screen name="(admin)/AdminEditElection" options={{ tabBarButton: () => null }} />
+            {/* Hidden routes */}
+            <Tabs.Screen name="index" options={{ tabBarButton: () => null, tabBarItemStyle: { width: 0, flex: 0, padding: 0, margin: 0 } }} />
+            <Tabs.Screen name="(admin)/AdminEditElection" options={{ tabBarButton: () => null, tabBarItemStyle: { width: 0, flex: 0, padding: 0, margin: 0 } }} />
 
-            {/* Student tabs */}
+            {/* Student tabs - shown when not admin */}
             <Tabs.Screen
                 name="(voter)/VoterDashboard"
                 options={{
-                    title: 'Home',
-                    href: isAdmin ? null : undefined,
-                    tabBarIcon: ({ focused }) => <TabIcon name="home-outline" focused={focused} />,
+                    tabBarButton: isAdmin ? () => null : undefined,
+                    tabBarItemStyle: isAdmin ? { width: 0, flex: 0, padding: 0, margin: 0 } : { flex: 1 },
+                    tabBarIcon: ({ focused }) => (
+                        <TabIcon name="home-outline" focused={focused} label="Home" />
+                    ),
                 }}
             />
             <Tabs.Screen
                 name="(voter)/VoterVote"
                 options={{
-                    title: 'Vote Now',
-                    href: isAdmin ? null : undefined,
-                    tabBarIcon: ({ focused }) => <TabIcon name="grid-outline" focused={focused} />,
+                    tabBarButton: isAdmin ? () => null : undefined,
+                    tabBarItemStyle: isAdmin ? { width: 0, flex: 0, padding: 0, margin: 0 } : { flex: 1 },
+                    tabBarIcon: ({ focused }) => (
+                        <TabIcon name="grid-outline" focused={focused} label="Vote Now" />
+                    ),
                 }}
             />
             <Tabs.Screen
                 name="(voter)/VoterVotes"
                 options={{
-                    title: 'View Votes',
-                    href: isAdmin ? null : undefined,
-                    tabBarIcon: ({ focused }) => <TabIcon name="refresh-outline" focused={focused} />,
+                    tabBarButton: isAdmin ? () => null : undefined,
+                    tabBarItemStyle: isAdmin ? { width: 0, flex: 0, padding: 0, margin: 0 } : { flex: 1 },
+                    tabBarIcon: ({ focused }) => (
+                        <TabIcon name="refresh-outline" focused={focused} label="View Votes" />
+                    ),
                 }}
             />
             <Tabs.Screen
                 name="(voter)/VoterResults"
                 options={{
-                    title: 'Results',
-                    href: isAdmin ? null : undefined,
-                    tabBarIcon: ({ focused }) => <TabIcon name="bar-chart-outline" focused={focused} />,
+                    tabBarButton: isAdmin ? () => null : undefined,
+                    tabBarItemStyle: isAdmin ? { width: 0, flex: 0, padding: 0, margin: 0 } : { flex: 1 },
+                    tabBarIcon: ({ focused }) => (
+                        <TabIcon name="bar-chart-outline" focused={focused} label="Results" />
+                    ),
                 }}
             />
             <Tabs.Screen
                 name="(voter)/VoterProfile"
                 options={{
-                    title: 'Profile',
-                    href: isAdmin ? null : undefined,
-                    tabBarIcon: ({ focused }) => <TabIcon name="person-outline" focused={focused} />,
+                    tabBarButton: isAdmin ? () => null : undefined,
+                    tabBarItemStyle: isAdmin ? { width: 0, flex: 0, padding: 0, margin: 0 } : { flex: 1 },
+                    tabBarIcon: ({ focused }) => (
+                        <TabIcon name="person-outline" focused={focused} label="Profile" />
+                    ),
                 }}
             />
 
-            {/* Admin tabs */}
+            {/* Admin tabs - shown only when admin */}
             <Tabs.Screen
                 name="(admin)/AdminDashboard"
                 options={{
-                    title: 'Home',
-                    href: isAdmin ? undefined : null,
-                    tabBarIcon: ({ focused }) => <TabIcon name="home-outline" focused={focused} />,
+                    tabBarButton: isAdmin ? undefined : () => null,
+                    tabBarItemStyle: isAdmin ? { flex: 1 } : { width: 0, flex: 0, padding: 0, margin: 0 },
+                    tabBarIcon: ({ focused }) => (
+                        <TabIcon name="home-outline" focused={focused} label="Home" />
+                    ),
                 }}
             />
             <Tabs.Screen
                 name="(admin)/AdminElections"
                 options={{
-                    title: 'Elections',
-                    href: isAdmin ? undefined : null,
-                    tabBarIcon: ({ focused }) => <TabIcon name="options-outline" focused={focused} />,
+                    tabBarButton: isAdmin ? undefined : () => null,
+                    tabBarItemStyle: isAdmin ? { flex: 1 } : { width: 0, flex: 0, padding: 0, margin: 0 },
+                    tabBarIcon: ({ focused }) => (
+                        <TabIcon name="options-outline" focused={focused} label="Elections" />
+                    ),
                 }}
             />
             <Tabs.Screen
                 name="(admin)/AdminCreateElection"
                 options={{
-                    title: 'Create',
-                    href: isAdmin ? undefined : null,
-                    tabBarIcon: ({ focused }) => <TabIcon name="add-outline" focused={focused} />,
+                    tabBarButton: isAdmin ? undefined : () => null,
+                    tabBarItemStyle: isAdmin ? { flex: 1 } : { width: 0, flex: 0, padding: 0, margin: 0 },
+                    tabBarIcon: ({ focused }) => (
+                        <TabIcon name="add-outline" focused={focused} label="Create" />
+                    ),
                 }}
             />
             <Tabs.Screen
                 name="(admin)/AdminVoters"
                 options={{
-                    title: 'Voters',
-                    href: isAdmin ? undefined : null,
-                    tabBarIcon: ({ focused }) => <TabIcon name="people-outline" focused={focused} />,
+                    tabBarButton: isAdmin ? undefined : () => null,
+                    tabBarItemStyle: isAdmin ? { flex: 1 } : { width: 0, flex: 0, padding: 0, margin: 0 },
+                    tabBarIcon: ({ focused }) => (
+                        <TabIcon name="people-outline" focused={focused} label="Voters" />
+                    ),
                 }}
             />
             <Tabs.Screen
                 name="(admin)/AdminResults"
                 options={{
-                    title: 'Results',
-                    href: isAdmin ? undefined : null,
-                    tabBarIcon: ({ focused }) => <TabIcon name="bar-chart-outline" focused={focused} />,
+                    tabBarButton: isAdmin ? undefined : () => null,
+                    tabBarItemStyle: isAdmin ? { flex: 1 } : { width: 0, flex: 0, padding: 0, margin: 0 },
+                    tabBarIcon: ({ focused }) => (
+                        <TabIcon name="bar-chart-outline" focused={focused} label="Results" />
+                    ),
                 }}
             />
             <Tabs.Screen
                 name="(admin)/AdminAnnouncements"
                 options={{
-                    title: 'Announcements',
-                    href: isAdmin ? undefined : null,
-                    tabBarIcon: ({ focused }) => <TabIcon name="notifications-outline" focused={focused} />,
+                    tabBarButton: isAdmin ? undefined : () => null,
+                    tabBarItemStyle: isAdmin ? { flex: 1 } : { width: 0, flex: 0, padding: 0, margin: 0 },
+                    tabBarIcon: ({ focused }) => (
+                        <TabIcon name="notifications-outline" focused={focused} label="News" />
+                    ),
                 }}
             />
             <Tabs.Screen
                 name="(admin)/AdminProfile"
                 options={{
-                    href: null,
-                    tabBarIcon: ({ focused }) => <TabIcon name="person-outline" focused={focused} />,
+                    tabBarButton: () => null,
+                    tabBarItemStyle: { width: 0, flex: 0, padding: 0, margin: 0 },
                 }}
             />
         </Tabs>
     );
 }
+
+const styles = StyleSheet.create({
+    tabContainer: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        flex: 1,
+        width: '100%',
+    },
+    iconCircle: {
+        width: 44,
+        height: 44,
+        borderRadius: 22,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: 2,
+    },
+    iconCircleActive: {
+        backgroundColor: 'rgba(255,255,255,0.25)',
+    },
+    tabLabel: {
+        fontSize: 10,
+        fontWeight: '600',
+        color: 'rgba(255,255,255,0.7)',
+    },
+    tabLabelActive: {
+        color: '#ffffff',
+    },
+});
