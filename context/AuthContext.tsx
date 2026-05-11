@@ -5,7 +5,7 @@ interface User {
   id: string;
   name: string;
   email: string;
-  role: 'student' | 'admin';
+  role: 'student';
   hasVoted?: boolean;
   createdAt?: string;
 }
@@ -15,43 +15,24 @@ interface AuthContextType {
   loading: boolean;
   registerStudent: (data: { fullName: string; email: string; password: string }) => Promise<{ success: boolean; error?: string }>;
   loginStudent: (data: { email: string; password: string }) => Promise<{ success: boolean; error?: string }>;
-  loginAdmin: (data: { email: string; password: string }) => Promise<{ success: boolean; error?: string }>;
   logout: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
-
-const DEFAULT_ADMIN = {
-  id: 'admin_001',
-  email: 'admin@snsu.edu.ph',
-  password: 'admin123',
-  role: 'admin' as const,
-  name: 'System Administrator',
-};
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    initializeAdmin();
     loadUser();
   }, []);
-
-  const initializeAdmin = async () => {
-    try {
-      const admins = await AsyncStorage.getItem('cv_admins');
-      if (!admins) {
-        await AsyncStorage.setItem('cv_admins', JSON.stringify([DEFAULT_ADMIN]));
-      }
-    } catch {}
-  };
 
   const loadUser = async () => {
     try {
       const userData = await AsyncStorage.getItem('cv_current_user');
       if (userData) setUser(JSON.parse(userData));
-    } catch {}
+    } catch { }
     finally { setLoading(false); }
   };
 
@@ -98,30 +79,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
-  const loginAdmin = async ({ email, password }: { email: string; password: string }) => {
-    try {
-      const raw = await AsyncStorage.getItem('cv_admins');
-      const admins = raw ? JSON.parse(raw) : [DEFAULT_ADMIN];
-      const admin = admins.find(
-        (a: any) => a.email.toLowerCase() === email.toLowerCase().trim() && a.password === password
-      );
-      if (!admin) return { success: false, error: 'Invalid admin credentials.' };
-      const { password: _, ...sessionUser } = admin;
-      await AsyncStorage.setItem('cv_current_user', JSON.stringify(sessionUser));
-      setUser(sessionUser);
-      return { success: true };
-    } catch {
-      return { success: false, error: 'Login failed. Please try again.' };
-    }
-  };
-
   const logout = async () => {
     await AsyncStorage.removeItem('cv_current_user');
     setUser(null);
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, registerStudent, loginStudent, loginAdmin, logout }}>
+    <AuthContext.Provider value={{ user, loading, registerStudent, loginStudent, logout }}>
       {children}
     </AuthContext.Provider>
   );

@@ -82,7 +82,6 @@ export default function VoterRegisterScreen() {
           <Text style={styles.title}>Student Registration</Text>
 
           <View style={styles.field}>
-            <Text style={styles.label}>Full Name</Text>
             <TextInput
               style={styles.input}
               placeholder="Enter your full name"
@@ -94,7 +93,6 @@ export default function VoterRegisterScreen() {
           </View>
 
           <View style={styles.field}>
-            <Text style={styles.label}>Student Email</Text>
             <TextInput
               style={styles.input}
               placeholder="student@snsu.edu.ph"
@@ -105,29 +103,26 @@ export default function VoterRegisterScreen() {
               autoCapitalize="none"
               autoCorrect={false}
             />
-            <Text style={styles.hint}>Must use your @snsu.edu.ph email</Text>
           </View>
 
           <View style={styles.field}>
-            <Text style={styles.label}>Password</Text>
             <View style={styles.pwRow}>
               <TextInput
                 style={[styles.input, { flex: 1 }]}
-                placeholder="Create a password (min. 6 characters)"
+                placeholder="Create a password"
                 placeholderTextColor={Colors.textMuted}
                 value={password}
                 onChangeText={setPassword}
                 secureTextEntry={!showPw}
               />
               <TouchableOpacity style={styles.eyeBtn} onPress={() => setShowPw(v => !v)}>
-                <Text>{showPw ? '🙈' : '👁️'}</Text>
+                <Text>{showPw ? 'hide' : 'show'}</Text>
               </TouchableOpacity>
             </View>
             <PasswordStrength password={password} />
           </View>
 
           <View style={styles.field}>
-            <Text style={styles.label}>Confirm Password</Text>
             <View style={styles.pwRow}>
               <TextInput
                 style={[styles.input, { flex: 1 }, pwMismatch && styles.inputError]}
@@ -138,7 +133,7 @@ export default function VoterRegisterScreen() {
                 secureTextEntry={!showConfirm}
               />
               <TouchableOpacity style={styles.eyeBtn} onPress={() => setShowConfirm(v => !v)}>
-                <Text>{showConfirm ? '🙈' : '👁️'}</Text>
+                <Text>{showConfirm ? 'hide' : 'show'}</Text>
               </TouchableOpacity>
             </View>
             {pwMismatch && <Text style={styles.errorText}>Passwords do not match</Text>}
@@ -190,7 +185,7 @@ const styles = StyleSheet.create({
   },
   inputError: { borderColor: Colors.error },
   pwRow: { flexDirection: 'row', alignItems: 'center' },
-  eyeBtn: { position: 'absolute', right: 14, height: 50, justifyContent: 'center' },
+  eyeBtn: { position: 'absolute', right: 14, height: 50, opacity: 0.7, justifyContent: 'center' },
   hint: { fontSize: 11, color: Colors.textMuted, marginTop: 4, marginLeft: 2 },
   errorText: { fontSize: 11, color: Colors.error, marginTop: 4, marginLeft: 2 },
   primaryBtn: {

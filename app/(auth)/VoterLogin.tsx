@@ -31,7 +31,7 @@ export default function VoterLoginScreen() {
   return (
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <ScrollView contentContainerStyle={styles.scroll} keyboardShouldPersistTaps="handled">
-        <View style={styles.logoArea}> 
+        <View style={styles.logoArea}>
           <Text style={styles.appName}>CampusVote</Text>
           <Text style={styles.appTagline}>SNSU Online Voting System</Text>
         </View>
@@ -65,7 +65,7 @@ export default function VoterLoginScreen() {
                 secureTextEntry={!showPassword}
               />
               <TouchableOpacity style={styles.eyeBtn} onPress={() => setShowPassword(v => !v)}>
-                <Text>{showPassword ? '🙈' : '👁️'}</Text>
+                <Text>{showPassword ? 'hide' : 'show'}</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -99,11 +99,6 @@ export default function VoterLoginScreen() {
                 Don't have an account? <Text style={styles.linkBold}>Register</Text>
               </Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => router.push('/(auth)/AdminLogin')}>
-              <Text style={styles.linkText}>
-                <Text style={styles.linkBold}>Login as Admin</Text>
-              </Text>
-            </TouchableOpacity>
           </View>
         </View>
       </ScrollView>
@@ -134,7 +129,7 @@ const styles = StyleSheet.create({
     color: Colors.text, backgroundColor: '#fafafa',
   },
   pwRow: { flexDirection: 'row', alignItems: 'center' },
-  eyeBtn: { position: 'absolute', right: 14, height: 50, justifyContent: 'center' },
+  eyeBtn: { position: 'absolute', right: 14, height: 50, opacity: 0.7, justifyContent: 'center' },
   primaryBtn: {
     height: 52, backgroundColor: Colors.primaryLight,
     borderRadius: 26, justifyContent: 'center', alignItems: 'center', marginTop: 4,

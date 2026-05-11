@@ -22,11 +22,6 @@ function RootLayoutNav() {
       if (!inAuthGroup) {
         router.replace('/(auth)/VoterLogin');
       }
-    } else if (user.role === 'admin') {
-      // Admin → admin tabs
-      if (!inTabsGroup) {
-        router.replace('/(tabs)/(admin)/AdminDashboard');
-      }
     } else {
       // Student → voter tabs
       if (!inTabsGroup) {
