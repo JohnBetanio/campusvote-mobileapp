@@ -50,25 +50,16 @@ CampusVote/
 │   │   ├── _layout.tsx          ← Auth stack navigator
 │   │   ├── VoterLogin.tsx       ← Student login screen
 │   │   ├── VoterRegister.tsx    ← Student registration screen
-│   │   └── AdminLogin.tsx       ← Admin login screen
+│   │ 
 │   └── (tabs)/
-│       ├── _layout.tsx          ← Tab bar (student OR admin tabs)
+│       ├── _layout.tsx          ← Tab bar (student tabs)
 │       ├── index.tsx            ← Tab home screen
 │       ├── (voter)/
-│       │   ├── VoterDashboard.tsx   ← Student: Dashboard
-│       │   ├── VoterVote.tsx        ← Student: Vote
-│       │   ├── VoterVotes.tsx       ← Student: Vote history
-│       │   ├── VoterResults.tsx     ← Student: Results
-│       │   └── VoterProfile.tsx     ← Student: Profile + Logout
-│       └── (admin)/
-│           ├── AdminDashboard.tsx    ← Admin: Dashboard
-│           ├── AdminVoters.tsx       ← Admin: Voter management
-│           ├── AdminElections.tsx    ← Admin: Election management
-│           ├── AdminCreateElection.tsx ← Admin: Create election
-│           ├── AdminEditElection.tsx   ← Admin: Edit election
-│           ├── AdminAnnouncements.tsx  ← Admin: Announcements
-│           ├── AdminResults.tsx       ← Admin: Results
-│           └── AdminProfile.tsx       ← Admin: Profile + Logout
+│          ├── VoterDashboard.tsx   ← Student: Dashboard
+│          ├── VoterVote.tsx        ← Student: Vote
+│          ├── VoterVotes.tsx       ← Student: Vote history
+│          ├── VoterResults.tsx     ← Student: Results
+│          └── VoterProfile.tsx     ← Student: Profile + Logout      
 ├── context/
 │   └── AuthContext.tsx          ← Auth state + AsyncStorage
 ├── constants/
@@ -112,12 +103,6 @@ Scan the QR code with **Expo Go** on Android/iOS, or press:
 
 ## 🔐 Authentication
 
-### Default Admin Credentials
-| Field    | Value               |
-|----------|---------------------|
-| Email    | admin@snsu.edu.ph   |
-| Password | admin123            |
-
 ### Student Registration Rules
 - Email **must** end with `@snsu.edu.ph`
 - Password minimum 6 characters
@@ -132,10 +117,8 @@ The root `app/_layout.tsx` acts as an **auth guard**:
 ```
 Not logged in    → /(auth)/student-login
 Logged in student → /(tabs)/          (Home tab)
-Logged in admin   → /(tabs)/admin-dashboard
 ```
 
-Tabs are **conditionally shown** — students see 4 student tabs, admins see 4 admin tabs.
 
 ---
 
@@ -146,7 +129,6 @@ Tabs are **conditionally shown** — students see 4 student tabs, admins see 4 a
 |------|-------|-------------|
 | `(auth)/VoterLogin.tsx` | `/VoterLogin` | Student login with email & password |
 | `(auth)/VoterRegister.tsx` | `/VoterRegister` | Student registration with password strength meter |
-| `(auth)/AdminLogin.tsx` | `/AdminLogin` | Admin login with default credentials |
 
 ### Student (Voter) Screens
 | File | Description |
@@ -157,27 +139,8 @@ Tabs are **conditionally shown** — students see 4 student tabs, admins see 4 a
 | `(tabs)/(voter)/VoterResults.tsx` | View live election results |
 | `(tabs)/(voter)/VoterProfile.tsx` | Account info & logout |
 
-### Admin Screens
-| File | Description |
-|------|-------------|
-| `(tabs)/(admin)/AdminDashboard.tsx` | Dashboard with stats & turnout |
-| `(tabs)/(admin)/AdminVoters.tsx` | Manage voter accounts |
-| `(tabs)/(admin)/AdminElections.tsx` | List & manage elections |
-| `(tabs)/(admin)/AdminCreateElection.tsx` | Create new election |
-| `(tabs)/(admin)/AdminEditElection.tsx` | Edit existing election |
-| `(tabs)/(admin)/AdminAnnouncements.tsx` | Post announcements |
-| `(tabs)/(admin)/AdminResults.tsx` | View detailed results |
-| `(tabs)/(admin)/AdminProfile.tsx` | Admin info & logout |
 
----
-
-## 🔐 Authentication
-
-### Default Admin Credentials
-| Field    | Value               |
-|----------|---------------------|
-| Email    | admin@snsu.edu.ph   |
-| Password | admin123            |
+## 🔐 Authentication        |
 
 ### Student Registration Rules
 - Email **must** end with `@snsu.edu.ph`
@@ -193,10 +156,7 @@ The root `app/_layout.tsx` acts as an **auth guard**:
 ```
 Not logged in    → /(auth)/VoterLogin
 Logged in student → /(tabs)/(voter)/VoterDashboard
-Logged in admin   → /(tabs)/(admin)/AdminDashboard
 ```
-
-Tabs are **conditionally shown** — students see voter tabs, admins see admin tabs.
 
 ---
 
@@ -205,7 +165,6 @@ Tabs are **conditionally shown** — students see voter tabs, admins see admin t
 | Key | Contents |
 |-----|----------|
 | `cv_students` | Array of registered student accounts |
-| `cv_admins` | Array of admin accounts |
 | `cv_current_user` | Currently logged-in session |
 
 ---
@@ -216,7 +175,6 @@ Tabs are **conditionally shown** — students see voter tabs, admins see admin t
 |-------|-------|
 | Primary (Student) | `#1B5E20` dark green |
 | Primary Light | `#2E7D32` |
-| Admin Primary | `#1a237e` navy |
 | Background | `#F5F7F5` |
 | Card | `#ffffff` |
 | Text | `#333333` |
@@ -231,10 +189,8 @@ Tabs are **conditionally shown** — students see voter tabs, admins see admin t
 ## ✅ Features
 
 - [x] Functional student registration & login
-- [x] Functional admin login (default credentials)
 - [x] Session persistence via AsyncStorage
 - [x] Auto-redirect auth guard in root layout
-- [x] Conditional tab bar (voter vs admin)
 - [x] Password strength meter
 - [x] Form validation & error handling
 - [x] Clean, modern UI with smooth animations
